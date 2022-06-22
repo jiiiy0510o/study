@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>끝말잇기</title>
+  </head>
+  <body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어 : <span id="word"></span></div>
+    <input type="text" />
+    <button>입력</button>
+
+    <script>
+      const number = +prompt("몇 명이 참가 하나요?", 0);
+      const btn = document.querySelector("button");
+      const input = document.querySelector("input");
+      const $word = document.querySelector("#word");
+      const $order = document.querySelector("#order");
+
+      let word;
+      let newWord;
+
+      const nextStep = () => {
+        word = newWord;
+        $word.innerText = word;
+        const order = Number($order.textContent);
+        if (order + 1 > number) {
+          $order.textContent = 1;
+        } else {
+          $order.textContent = order + 1;
+        }
+        input.value = "";
+        input.focus();
+      };
+
+      const onClickBtn = () => {
+        if (!word) {
+          nextStep();
+        } else {
+          if (word.slice(-1) === newWord[0]) {
+            nextStep();
+          } else {
+            alert("올바르지 않은 단어입니다.");
+          }
+        }
+      };
+
+      const inputText = (event) => {
+        newWord = event.target.value;
+      };
+
+      input.addEventListener("input", inputText);
+      btn.addEventListener("click", onClickBtn);
+    </script>
+  </body>
+</html>

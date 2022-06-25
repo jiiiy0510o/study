@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>숫자야구</title>
+  </head>
+  <body>
+    <form id="from">
+      <input type="text" id="input" />
+      <button>확인</button>
+    </form>
+    <div id="logs"></div>
+
+    <script>
+      const $input = document.querySelector("#input");
+      const $form = document.querySelector("form");
+      const $logs = document.querySelector("#logs");
+
+      const numbers = [];
+      for (let n = 0; n < 9; n += 1) {
+        numbers.push(n + 1);
+      }
+      const answer = [];
+      for (let n = 0; n < 4; n++) {
+        const index = Math.floor(Math.random() * numbers.length);
+        answer.push(numbers[index]);
+        numbers.splice(index, 1);
+      }
+      const tries = [];
+      function checkInput(input) {}
+      $form.addEventListener("submit", (event) => {
+        console.log("submit");
+        event.preventDefault();
+        const value = $input.value;
+        $input.value = "";
+        const valie = checkInput(value);
+      });
+    </script>
+  </body>
+</html>

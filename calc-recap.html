@@ -71,10 +71,9 @@
         }
         if (!numTwo) {
           $result.value = "";
-          numTwo += event.target.innerText;
-          $result.value += event.target.innerText;
-          console.log($result.value);
         }
+        numTwo += event.target.innerText;
+        $result.value += event.target.innerText;
       }
       document.querySelector("#num-0").addEventListener("click", onClickNum);
       document.querySelector("#num-1").addEventListener("click", onClickNum);
@@ -99,7 +98,6 @@
       document.querySelector("#plus").addEventListener("click", onClickCalc);
       document.querySelector("#devide").addEventListener("click", onClickCalc);
       document.querySelector("#minus").addEventListener("click", onClickCalc);
-
       document.querySelector("#equal").addEventListener("click", () => {
         if (numTwo) {
           if (operator == "*") {
@@ -111,9 +109,21 @@
           } else {
             $result.value = numOne - numTwo;
           }
+          $operator.value = "";
+          numOne = $result.value;
+          operator = "";
+          numTwo = "";
+        } else {
+          alert("먼저 숫자를 입력해주세요.");
         }
       });
-      document.querySelector("#clear").addEventListener("click", onClickNum);
+      document.querySelector("#clear").addEventListener("click", () => {
+        numOne = "";
+        numTwo = "";
+        operator = "";
+        $result.value = "";
+        $operator.value = "";
+      });
     </script>
   </body>
 </html>

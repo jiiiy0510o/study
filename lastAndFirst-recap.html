@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3글자 끝말잇기</title>
+  </head>
+  <body>
+    <div><span id="number">1</span>번째 참가자</div>
+    <div>제시어 : <span id="word"></span></div>
+    <input type="text" />
+    <button>입력</button>
+
+    <script>
+      const start = confirm("게임을 시작하겠습니까?");
+      const body = document.querySelector("body");
+      const word = document.querySelector("#word");
+      const input = document.querySelector("input");
+      const btn = document.querySelector("button");
+      const number = document.querySelector("#number");
+
+      let $newWord;
+
+      if (start === true) {
+        const $number = +prompt("몇 명이 참가하나요?", 0);
+      } else {
+        alert("끝말잇기 끝");
+        body.innerHTML = "";
+      }
+
+      function onClick() {
+        if (input.value.length == 3) {
+          if (!word) {
+            $newWord = input.value;
+            word.innerText = newWord;
+          } else {
+            const order = number.textContent;
+          }
+        } else {
+          ("틀렸습니다.");
+        }
+      }
+
+      btn.addEventListener("click", onClick);
+    </script>
+  </body>
+</html>

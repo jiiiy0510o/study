@@ -8,7 +8,7 @@
   </head>
   <body>
     <form id="from">
-      <input type="text" id="input" />
+      <input required minlength="4" maxlength="4" type="text" id="input" pattern="^(?!/*(.).*\1)\d{4}$" />
       <button>확인</button>
     </form>
     <div id="logs"></div>
@@ -29,13 +29,56 @@
         numbers.splice(index, 1);
       }
       const tries = [];
-      function checkInput(input) {}
+      function checkInput(input) {
+        if (input.length !== 4) {
+          return alert("4자리 숫자를 입력해주세요");
+        }
+        if (new Set(input).size !== 4) {
+          //new Set 중복을 찾아주는 배열
+          return alert("중복되지 않게 입력해주세요.");
+        }
+        if (tries.includes(input)) {
+          return alert("이미 시도한 값입니다.");
+        }
+        return true;
+      }
       $form.addEventListener("submit", (event) => {
-        console.log("submit");
         event.preventDefault();
         const value = $input.value;
         $input.value = "";
-        const valie = checkInput(value);
+        if (!checkInput(value)) {
+          return;
+        }
+        if (answer.join("") === value) {
+          //문자열을 배열로
+          $logs.textContent = "홈런!";
+          return;
+        }
+        if (tries.length >= 9) {
+          const message = document.createTextNode(`패배!정답은 ${answer.join("")}`);
+          $logs.appendChild(message);
+          return;
+        }
+        //몇 스트라이크 몇 볼인지 검사
+        let strike = 0;
+        let ball = 0;
+        for (let i = 0; i < answer.length; i++) {
+          const index = value.indexOf(answer[i]);
+          if (index > -1) {
+            if (index === i) {
+              strike += 1;
+            } else {
+              ball += 1;
+            }
+          }
+        }
+        tries.push(value);
+        $logs.append(
+          `입력값 : ${value}`,
+          document.createElement("br"),
+          `< ${strike} 스트라이크 ${ball} 볼 >`,
+          document.createElement("br")
+        );
       });
     </script>
   </body>

@@ -6,16 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>로또추첨기</title>
     <style>
+      body {
+        padding: 20px;
+        font-size: 16px;
+
+        line-height: 3;
+      }
       .ball {
         display: inline-block;
-        border: 1px solid black;
-        border-radius: 20px;
+        border: 3px double black;
+        border-radius: 50%;
         width: 40px;
         height: 40px;
         line-height: 40px;
         font-size: 20px;
         text-align: center;
-        margin-right: 20px;
+        margin-left: 20px;
+        font-weight: 900;
       }
     </style>
   </head>
@@ -33,10 +40,45 @@
         const value = spliceArray[0]; //배열에 들어있는 값을 꺼내어
         shuffle.push(value); //shuffle 배열에 넣기
       }
-      console.log(shuffle);
       const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
       const bonus = shuffle[6];
       console.log(winBalls, bonus);
+
+      const $result = document.querySelector("#result");
+      const $bonus = document.querySelector("#bonus");
+
+      function color(number, $target) {
+        if (number < 10) {
+          $target.style.backgroundColor = "red";
+          $target.style.color = "white";
+        } else if (number < 20) {
+          $target.style.backgroundColor = "orange";
+        } else if (number < 30) {
+          $target.style.backgroundColor = "yellow";
+        } else if (number < 40) {
+          $target.style.backgroundColor = "blue";
+          $target.style.color = "white";
+        } else {
+          $target.style.backgroundColor = "green";
+          $target.style.color = "white";
+        }
+      }
+      const showBalls = (number, $target) => {
+        const $ball = document.createElement("div");
+        $ball.className = "ball";
+        color(number, $ball);
+        $ball.textContent = number;
+        $target.appendChild($ball);
+      };
+
+      for (let i = 0; i < winBalls.length; i++) {
+        setTimeout(() => {
+          showBalls(winBalls[i], $result);
+        }, (i + 1) * 1000);
+      }
+      setTimeout(() => {
+        showBalls(bonus, $bonus);
+      }, 7000);
     </script>
   </body>
 </html>

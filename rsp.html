@@ -37,25 +37,48 @@
         paper: "-440px",
       };
 
-      let computerChoic = "scissors";
+      let computerChoice = "scissors";
       const changeComputerHand = () => {
-        if (computerChoic === "scissors") {
-          computerChoic = "rock";
-        } else if (computerChoic === "rock") {
-          computerChoic = "paper";
-        } else if (computerChoic === "paper") {
-          computerChoic = "scissors";
+        if (computerChoice === "scissors") {
+          computerChoice = "rock";
+        } else if (computerChoice === "rock") {
+          computerChoice = "paper";
+        } else if (computerChoice === "paper") {
+          computerChoice = "scissors";
         }
-        $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoic]} 0`;
+        $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
         $computer.style.backgroundSize = "auto 200px";
       };
 
       let intervalId = setInterval(changeComputerHand, 80);
       let clickable = true;
+      let score = 0;
+      const scoreTable = {
+        scissors: 1,
+        rock: 2,
+        paper: 3,
+      };
       function clickBtn() {
         if (clickable) {
           clearInterval(intervalId);
           clickable = false;
+          const myChoice =
+            event.target.textContent === "바위" ? "rock" : event.target.textContent === "가위" ? "scissors" : "paper";
+          const myScore = scoreTable[myChoice];
+          const computerScore = scoreTable[computerChoice];
+          const diff = myScore - computerScore;
+
+          let message;
+          if ([2, -1].includes(diff)) {
+            score -= 1;
+            message = "패배";
+          } else if (diff === 0) {
+            message = "무승부";
+          } else {
+            score += 1;
+            message = "승리";
+          }
+          $score.textContent = `${message} 총:${score}점`;
           setTimeout(() => {
             clickable = true;
             intervalId = setInterval(changeComputerHand, 80);

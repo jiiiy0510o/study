@@ -7,14 +7,17 @@
     <title>틱택토 게임</title>
     <style>
       body {
+        overflow: hidden;
         width: 100vw;
         height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
       }
       table {
         border-collapse: collapse;
+        margin-bottom: 16px;
       }
       td {
         border: 1px solid black;
@@ -33,16 +36,74 @@
 
       let turn = "O";
       const rows = [];
+      //rows[
+      //[td,td,td]
+      //[td,td,td]
+      //[td,td,td]
+      //]
+      const checkWinner = (target) => {
+        let rowIndex = target.parentNode.rowIndex;
+        const cellIndex = target.cellIndex;
 
-      const callback = (event) => {
-        if (event.target.textContent !== "") {
-          //칸이 이미 채워져 있는가?
-          console.log("빈칸이 아닙니다.");
+        let hasWinner = false;
+        if (
+          rows[rowIndex][0].textContent === turn &&
+          rows[rowIndex][1].textContent === turn &&
+          rows[rowIndex][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        if (
+          rows[0][cellIndex].textContent === turn &&
+          rows[1][cellIndex].textContent === turn &&
+          rows[2][cellIndex].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        if (rows[0][0].textContent === turn && rows[1][1].textContent === turn && rows[2][2].textContent === turn) {
+          hasWinner = true;
+        }
+        if (rows[0][2].textContent === turn && rows[1][1].textContent === turn && rows[2][0].textContent === turn) {
+          hasWinner = true;
+        }
+        return hasWinner;
+      };
+      const checkWinnerAndDraw = (target) => {
+        const hasWinner = checkWinner(target);
+        if (hasWinner) {
+          $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener("click", callback);
           return;
         }
-        console.log("빈칸입니다");
-        event.target.textContent = turn;
+        const draw = rows.flat().every((cell) => cell.textContent);
+        if (draw) {
+          $result.textContent = "무승부";
+          return;
+        }
         turn = turn === "O" ? "X" : "O";
+      };
+      let clickable = true;
+      const callback = (event) => {
+        if (!clickable) {
+          return;
+        }
+        if (event.target.textContent !== "") {
+          //칸이 이미 채워져 있는가?
+          alert("빈칸이 아닙니다.");
+          return;
+        }
+        event.target.textContent = turn;
+        checkWinnerAndDraw(event.target);
+        if (turn === "X") {
+          clickable = false;
+          setTimeout(() => {
+            const emptyCells = rows.flat().filter((v) => !v.textContent);
+            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            randomCell.textContent = "X";
+            checkWinnerAndDraw(event.target);
+            clickable = true;
+          }, 1000);
+        }
       };
 
       for (let i = 0; i < 3; i++) {

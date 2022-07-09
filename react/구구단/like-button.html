@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="eng">
+  <head>
+    <meta charset="utf-8" />
+    <title>웹 게임</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      "use strict";
+
+      const LikeButton = () => {
+        //함수 컨포넌트
+        const [liked, setLiked] = React.useState(false); //구조분해할당
+        if (liked) {
+          return "You Liked this.";
+        }
+
+        return (
+          <button
+            onClick={() => {
+              setLiked(true);
+            }}
+          >
+            like
+          </button>
+        );
+      };
+
+      //ReactDOM.render(<LikeButton />, document.querySelector("#root")); React17버전
+      ReactDOM.createRoot(document.querySelector("#root")).render(<LikeButton />); //React18버전
+    </script>
+  </body>
+</html>
